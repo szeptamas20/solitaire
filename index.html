@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Solitaire</title>
+  <meta name="description" content="Klondike solitaire. No ads, works offline.">
+  <meta name="theme-color" content="#17594a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Solitaire">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="hud">
+    <div class="stat"><span class="lbl">Moves</span> <span id="moves">0</span></div>
+    <div class="title">Solitaire</div>
+    <div class="stat"><span class="lbl">Time</span> <span id="time">0:00</span></div>
+  </header>
+
+  <main id="board" aria-label="Game board"></main>
+
+  <nav id="toolbar">
+    <button id="btn-menu" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span>
+    </button>
+    <button id="btn-new" aria-label="New game">
+      <svg viewBox="0 0 24 24"><rect x="5" y="3" width="11" height="15" rx="2"/><path d="M9 21h8a2 2 0 0 0 2-2V8"/></svg><span>New</span>
+    </button>
+    <button id="btn-hint" aria-label="Hint">
+      <svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span>Hint</span>
+    </button>
+    <button id="btn-undo" aria-label="Undo">
+      <svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span>Undo</span>
+    </button>
+  </nav>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <div id="sheet" class="overlay" hidden>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="panel-head">
+        <h2 id="sheet-title">Menu</h2>
+        <button class="close" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="row-btns">
+        <button class="wide" id="m-new">New game</button>
+        <button class="wide" id="m-restart">Restart this deal</button>
+      </div>
+
+      <div class="setting">
+        <div class="setting-lbl">Draw<small id="draw-note"></small></div>
+        <div class="seg" data-setting="draw">
+          <button data-value="1">1 card</button>
+          <button data-value="3">3 cards</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-lbl">Deck position</div>
+        <div class="seg" data-setting="side">
+          <button data-value="left">Left</button>
+          <button data-value="right">Right</button>
+        </div>
+      </div>
+      <div class="setting">
+        <div class="setting-lbl">Theme</div>
+        <div class="seg" data-setting="theme">
+          <button data-value="auto">Auto</button>
+          <button data-value="light">Light</button>
+          <button data-value="dark">Dark</button>
+        </div>
+      </div>
+
+      <h3>Statistics</h3>
+      <div class="stats" id="stats"></div>
+      <button class="link" id="m-reset-stats">Reset statistics</button>
+    </div>
+  </div>
+
+  <div id="win" class="overlay" hidden>
+    <div class="panel center" role="dialog" aria-modal="true" aria-labelledby="win-title">
+      <h2 id="win-title">You won!</h2>
+      <p id="win-text"></p>
+      <button class="wide primary" id="win-new">Play again</button>
+    </div>
+  </div>
+
+  <div id="ask" class="overlay" hidden>
+    <div class="panel center" role="alertdialog" aria-modal="true" aria-labelledby="ask-text">
+      <p id="ask-text"></p>
+      <div class="row-btns">
+        <button class="wide" data-close>Cancel</button>
+        <button class="wide primary" id="ask-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
